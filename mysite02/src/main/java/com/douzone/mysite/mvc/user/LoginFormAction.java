@@ -13,8 +13,7 @@ public class LoginFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MvcUtil.forward("user/loginform", request, response);
-
+		MvcUtil.forward("user/loginform", request, response);	
 	}
 
 }

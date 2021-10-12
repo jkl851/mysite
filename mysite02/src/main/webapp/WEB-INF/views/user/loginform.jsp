@@ -20,11 +20,11 @@
 					<label class="block-label" >패스워드</label>
 					<input name="password" type="password" value="">
 					<%
-						if("fail".equals(result)){
+						if("fail".equals(result)) {
 					%>
-					<p>
-						로그인이 실패 했습니다.
-					</p>
+						<p>
+							로그인이 실패 했습니다.
+						</p>
 					<%
 						}
 					%>

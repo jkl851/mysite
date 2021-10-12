@@ -5,29 +5,30 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import com.douzone.mysite.vo.UserVo;
 
 public class UserDao {
+
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo vo = null;
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+				
 		try {
 			conn = getConnection();
 			
-			String sql = 
-				"select no, name " + 
-			"from user" + " where email=? " +
-						"and password=?";
+			String sql =
+				" select no, name " + 
+			    "   from user " + 
+				"  where email=?" + 
+			    "    and password=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
-
+			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -38,11 +39,10 @@ public class UserDao {
 				vo.setNo(no);
 				vo.setName(name);
 			}
-
+			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} finally {
-			// clean up
 			try {
 				if(rs != null) {
 					rs.close();
@@ -63,32 +63,28 @@ public class UserDao {
 	
 	public boolean insert(UserVo vo) {
 		boolean result = false;
+
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
 		try {
 			conn = getConnection();
 			
-			//3. SQL 준비
-			String sql = "insert"
-					+ "	into user"
-					+ "    values (null, ?, ?, ?, ?, now())";
+			String sql =
+					" insert " + 
+					"   into user " + 
+					" values(null, ?, ?, ?, ?, now())";
 			pstmt = conn.prepareStatement(sql);
 			
-			//4. 바인딩(binding)
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
 			pstmt.setString(3, vo.getPassword());
 			pstmt.setString(4, vo.getGender());
 			
-			//5. SQL 실행
 			int count = pstmt.executeUpdate();
-			
-			result = count == 1;
+			result = count == 1;			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} finally {
-			// clean up
 			try {
 				if(pstmt != null) {
 					pstmt.close();
@@ -99,7 +95,7 @@ public class UserDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}		
 		
 		return result;
 	}
@@ -107,16 +103,13 @@ public class UserDao {
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
-			// 1. JDBC Driver 로딩
 			Class.forName("org.mariadb.jdbc.Driver");
-
-			// 2. 연결하기
-			String url = "jdbc:mysql://127.0.0.1:3306/webdb?charset=utf8";
+			String url = "jdbc:mysql://127.0.0.1:3306/webdb?characterEncoding=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);
-		}
-
+		} 
+		
 		return conn;
 	}
 }

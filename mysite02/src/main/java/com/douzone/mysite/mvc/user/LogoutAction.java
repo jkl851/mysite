@@ -18,7 +18,7 @@ public class LogoutAction implements Action {
 		HttpSession session = request.getSession();
 		session.removeAttribute("authUser");
 		session.invalidate();
-		
+
 		MvcUtil.redirect(request.getContextPath(), request, response);
 	}
 

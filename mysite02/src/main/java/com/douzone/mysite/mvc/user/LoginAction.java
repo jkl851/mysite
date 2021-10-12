@@ -28,8 +28,8 @@ public class LoginAction implements Action {
 		}
 		
 		/* 인증처리(세션처리) */
-		HttpSession session = request.getSession(true); 
-		session.setAttribute("authUser", userVo); 
+		HttpSession session = request.getSession(true);
+		session.setAttribute("authUser", userVo);
 		
 		MvcUtil.redirect("/mysite02", request, response);
 	}
