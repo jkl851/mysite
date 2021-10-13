@@ -124,7 +124,7 @@ public class UserDao {
 			conn = getConnection();
 			
 			String sql =
-				" select email " + 
+				" select email, name, gender " + 
 			    "   from user " + 
 				"  where no=?";
 			pstmt = conn.prepareStatement(sql);
@@ -135,10 +135,14 @@ public class UserDao {
 			
 			if(rs.next()) {
 				String email = rs.getString(1);
+				String name = rs.getString(2);
+				String gender = rs.getString(3);
 				
 				vo = new UserVo();
 				vo.setNo(no);
+				vo.setName(name);
 				vo.setEmail(email);
+				vo.setGender(gender);
 			}
 			
 		} catch (SQLException e) {
@@ -160,5 +164,45 @@ public class UserDao {
 		}
 		
 		return vo;
+	}
+	
+	public boolean update(UserVo vo) {
+		boolean result = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+			
+			String sql =
+					" update " + 
+					"user set" + 
+					" name=?, gender=?, password=?"+
+					" where no=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getGender());
+			pstmt.setString(3, vo.getPassword());
+			pstmt.setLong(4, vo.getNo());
+			
+			int count = pstmt.executeUpdate();
+			result = count == 1;			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		return result;
 	}
 }

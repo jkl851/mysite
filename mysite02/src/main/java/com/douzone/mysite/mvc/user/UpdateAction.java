@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.douzone.mysite.dao.UserDao;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
@@ -23,7 +24,17 @@ public class UpdateAction implements Action {
 			return;
 		}
 		///////////////////////////////////////////
+
+		String name = request.getParameter("name");
+		String gender = request.getParameter("gender");
+		String password = request.getParameter("password");
 		
+		authUser.setName(name);
+		authUser.setGender(gender);
+		authUser.setPassword(password);
+		
+		new UserDao().update(authUser);
+		MvcUtil.redirect("/mysite02", request, response);
 	}
 
 }
