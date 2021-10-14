@@ -34,6 +34,7 @@ public class UpdateAction implements Action {
 		authUser.setPassword(password);
 		
 		new UserDao().update(authUser);
+
 		MvcUtil.redirect("/mysite02", request, response);
 	}
 
