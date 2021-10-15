@@ -13,25 +13,22 @@ import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class ModifyAction implements Action {
+public class replyAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		Long contentNo= Long.parseLong(request.getParameter("no"));
-		BoardVo vo = new BoardDao().getTitleContent(contentNo);
-		
-		if(vo.getUser_no() == authUser.getNo()) {
-			vo.setTitle(request.getParameter("title"));
-			vo.setContents(request.getParameter("content"));
-			new BoardDao().modify(vo);
-			MvcUtil.redirect("board?a=viewform&no="+ contentNo, request, response);
-		} else {
-			MvcUtil.forward("board/list", request, response);
+		if(authUser == null) {
+			MvcUtil.forward("user/loginform", request, response);
+			return;
 		}
 		
+		Long contentNo = Long.parseLong(request.getParameter("no"));
+		BoardVo vo = new BoardDao().getGroupOrderDepthNo(contentNo);
+		request.setAttribute("vo", vo);
+		MvcUtil.forward("board/write", request, response);
 	}
 
 }

@@ -176,6 +176,56 @@ public class BoardDao {
 		return vo;
 	}
 	
+	public BoardVo getGroupOrderDepthNo(Long contentNo) {
+		BoardVo vo = new BoardVo();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+				
+		try {
+			conn = getConnection();
+			
+			String sql =
+				"select group_no, order_no, depth"
+				+ "	from board" +
+				"	where no=? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, contentNo);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			Long group_no = rs.getLong(1);
+			Long order_no = rs.getLong(2);
+			Long depth = rs.getLong(3);
+
+			vo.setGroup_no(group_no);
+			vo.setOrder_no(order_no);
+			vo.setDepth(depth);
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return vo;
+	}
+	
 	public boolean delete(Long contentNo, String password) {
 		boolean result = false;
 
@@ -257,7 +307,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public boolean update(BoardVo vo) {
+	public boolean modify(BoardVo vo) {
 		boolean result = false;
 
 		Connection conn = null;
