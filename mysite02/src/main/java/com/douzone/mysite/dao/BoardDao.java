@@ -26,8 +26,10 @@ public class BoardDao {
 				+ "	from board b, user a"
 				+ "    where b.user_no = a.no"
 				+ "	order by group_no desc, order_no asc	"
-				+ "limit 0, 10";
+				+ "limit ?, 10";
 			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, (pageNum-1)*10L);
 			
 			rs = pstmt.executeQuery();
 			
@@ -54,7 +56,6 @@ public class BoardDao {
 				vo.setGroup_no(group_no);
 				vo.setOrder_no(order_no);
 				vo.setDepth(depth);
-				
 				list.add(vo);
 			}
 			
@@ -119,6 +120,46 @@ public class BoardDao {
 		return maxNum;
 	}
 	
+	public Long countContents() {
+		Long countNum = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+				
+		try {
+			conn = getConnection();
+			
+			String sql =
+				"select count(no)"
+				+ "	from board";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+
+			countNum = rs.getLong(1);
+			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return countNum;
+	}
+	
 	public BoardVo getTitleContent(Long contentNo) {
 		BoardVo vo = new BoardVo();
 		Connection conn = null;
@@ -129,7 +170,7 @@ public class BoardDao {
 			conn = getConnection();
 			
 			String sql =
-				"select user_no, title, contents, group_no, order_no, depth"
+				"select user_no, title, contents, group_no, order_no, depth, hit"
 				+ "	from board" +
 				"	where no=? ";
 			
@@ -146,6 +187,7 @@ public class BoardDao {
 			Long group_no = rs.getLong(4);
 			Long order_no = rs.getLong(5);
 			Long depth = rs.getLong(6);
+			Long hit = rs.getLong(7);
 			
 			vo.setNo(contentNo);
 			vo.setUser_no(user_no);
@@ -154,6 +196,7 @@ public class BoardDao {
 			vo.setGroup_no(group_no);
 			vo.setOrder_no(order_no);
 			vo.setDepth(depth);
+			vo.setHit(hit);
 			
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -174,6 +217,44 @@ public class BoardDao {
 		}
 		
 		return vo;
+	}
+	
+	public boolean hit(Long hit, Long contentNo) {
+		boolean result = false;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = getConnection();
+			
+			String sql =
+					" update " + 
+					"board set" + 
+					" hit=?"+
+					" where no=?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, hit+1L);
+			pstmt.setLong(2, contentNo);
+			
+			int count = pstmt.executeUpdate();
+			result = count == 1;			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		
+		return result;
 	}
 	
 	public BoardVo getGroupOrderDepthNo(Long contentNo) {

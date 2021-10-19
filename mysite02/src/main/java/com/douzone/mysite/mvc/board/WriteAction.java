@@ -28,21 +28,46 @@ public class WriteAction implements Action {
 			return;
 		}
 		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		if(request.getParameter("oN") != null) {
+			
+			Long orderNo = Long.parseLong(request.getParameter("oN"));
+			Long groupNo = Long.parseLong(request.getParameter("gN"));
+			Long depth = Long.parseLong(request.getParameter("dT"));
+			
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			BoardVo vo = new BoardVo();
+			vo.setUser_no(authUser.getNo());
+			vo.setTitle(title);
+			vo.setContents(content);
+			vo.setHit(0L);
+			vo.setGroup_no(groupNo);
+			vo.setOrder_no(orderNo+1L);
+			vo.setDepth(depth+1L);
+
+			new BoardDao().insert(vo);
+
+			MvcUtil.redirect("/mysite02/board", request, response);
+			
+		} else {
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			BoardVo vo = new BoardVo();
+			vo.setUser_no(authUser.getNo());
+			vo.setTitle(title);
+			vo.setContents(content);
+			vo.setHit(0L);
+			vo.setGroup_no(new BoardDao().maxGroupNoFind()+1L);
+			vo.setOrder_no(0L);
+			vo.setDepth(0L);
+
+			new BoardDao().insert(vo);
+
+			MvcUtil.redirect("/mysite02/board", request, response);
+		}
 		
-		BoardVo vo = new BoardVo();
-		vo.setUser_no(authUser.getNo());
-		vo.setTitle(title);
-		vo.setContents(content);
-		vo.setHit(0L);
-		vo.setGroup_no(new BoardDao().maxGroupNoFind()+1L);
-		vo.setOrder_no(0L);
-		vo.setDepth(0L);
-
-		new BoardDao().insert(vo);
-
-		MvcUtil.redirect("/mysite02/board", request, response);
 	}
 
 }

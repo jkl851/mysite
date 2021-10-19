@@ -16,6 +16,11 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
+					<c:if test="${not empty vo}">
+						<input type = "hidden" name = "gN" value="${vo.group_no }">
+						<input type = "hidden" name = "oN" value="${vo.order_no }">		
+						<input type = "hidden" name = "dT" value="${vo.depth }">		
+					</c:if>
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

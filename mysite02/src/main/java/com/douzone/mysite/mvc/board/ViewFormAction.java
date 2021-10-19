@@ -19,6 +19,7 @@ public class ViewFormAction implements Action {
 		
 		
 		BoardVo vo = new BoardDao().getTitleContent(contentNo);
+		new BoardDao().hit(vo.getHit(), contentNo);
 		
 		request.setAttribute("vo", vo);
 		MvcUtil.forward("board/view", request, response);

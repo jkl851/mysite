@@ -31,8 +31,10 @@
 					<c:forEach items='${list }' var='vo' varStatus='status'>				
 						<tr>
 							<td>${vo.no }</td>
-							<td style="text-align:left; padding=left:${20*vo.depth }px">
-							
+							<td style="text-align:left; padding-left:${8*vo.depth }px;">
+								<c:if test="${vo.depth ne 0}">
+									<img src="${pageContext.request.contextPath }/assets/images/reply.png" width="10" height="10">
+								</c:if>
 							<a href="${pageContext.request.contextPath }/board?a=viewform&no=${vo.no }">${vo.title }</a></td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td> 
@@ -52,13 +54,35 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+					<c:choose>
+						<c:when test='${nvo.quotient != 0}'>
+							<li><a href="${pageContext.request.contextPath }/board?quotientL=${nvo.quotient-1}">◀</a></li>
+						</c:when>
+						<c:otherwise>
+							<li>◀</li>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach items='${pageList }' var='pageNum' varStatus='status'>	
+					<c:choose>
+						<c:when test='${pageNum == nvo.pageNum}'>
+							<li class="selected"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNum}">${pageNum}</a></li>
+						</c:when>
+						<c:when test='${pageNum != nvo.pageNum and pageNum <= nvo.maxPageNum}'>
+							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageNum}">${pageNum}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li>${pageNum}</li>
+						</c:otherwise>
+					</c:choose>
+					</c:forEach>
+					<c:choose>
+						<c:when test='${nvo.maxQuotient > nvo.quotient }'>
+							<li><a href="${pageContext.request.contextPath }/board?quotient=${nvo.quotient+1}">▶</a></li>
+						</c:when>
+						<c:otherwise>
+							<li>▶</li>
+						</c:otherwise>
+					</c:choose>
 					</ul>
 				</div>					
 				<!-- pager 추가 -->

@@ -12,7 +12,6 @@ public class BoardVo {
 	private Long order_no;
 	private Long depth;
 	
-
 	public Long getNo() {
 		return no;
 	}
@@ -31,7 +30,6 @@ public class BoardVo {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -81,4 +79,5 @@ public class BoardVo {
 				+ ", contents=" + contents + ", hit=" + hit + ", reg_date=" + reg_date + ", group_no=" + group_no
 				+ ", order_no=" + order_no + ", depth=" + depth + "]";
 	}
+
 }
