@@ -21,7 +21,7 @@ public class GuestbookController {
 	private GuestbookService guestbookService;
 	
 	@RequestMapping("")
-	public String list(Model model) {
+	public String list(Model model) throws Exception {
 		List<GuestbookVo> list = guestbookService.list();
 		model.addAttribute("list", list);
 		return "guestbook/list";

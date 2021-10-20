@@ -14,7 +14,7 @@ public class GuestbookService {
 	@Autowired
 	private GuestbookRepository guestbookRepository;
 
-	public List<GuestbookVo> list() {
+	public List<GuestbookVo> list() throws Exception {
 		return guestbookRepository.findAll();
 	} 
 	
