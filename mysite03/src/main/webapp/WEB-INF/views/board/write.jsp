@@ -14,8 +14,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-					<input type = "hidden" name = "a" value="write">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<c:if test="${not empty vo}">
 						<input type = "hidden" name = "gN" value="${vo.group_no }">
 						<input type = "hidden" name = "oN" value="${vo.order_no }">		

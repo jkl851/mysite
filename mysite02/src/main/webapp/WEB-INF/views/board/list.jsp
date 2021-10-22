@@ -56,7 +56,7 @@
 					<ul>
 					<c:choose>
 						<c:when test='${nvo.quotient != 0}'>
-							<li><a href="${pageContext.request.contextPath }/board?quotientL=${nvo.quotient-1}">◀</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?quotient=${nvo.quotient-1}">◀</a></li>
 						</c:when>
 						<c:otherwise>
 							<li>◀</li>

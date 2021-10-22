@@ -35,16 +35,18 @@
 								<c:if test="${vo.depth ne 0}">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png" width="10" height="10">
 								</c:if>
-							<a href="${pageContext.request.contextPath }/board?a=viewform&no=${vo.no }">${vo.title }</a></td>
+							<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a></td>
 							<td>${vo.user_name }</td>
 							<td>${vo.hit }</td> 
 							<td>${vo.reg_date }</td>
 							<c:choose>
 								<c:when test='${vo.user_no == authUser.no }'>
-									<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${vo.no }">삭제</a></td>
+									<td><a href="${pageContext.request.contextPath }/board/delete/${vo.no }">
+									<img src="${pageContext.request.contextPath }/assets/images/recycle.png" width="20" height="20">
+									</a></td>
 								</c:when>
 								<c:otherwise>
-									<td><a href="" class="del">삭제</a></td>
+									<td></td>
 								</c:otherwise>
 							</c:choose>
 						</tr>
@@ -88,7 +90,7 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>

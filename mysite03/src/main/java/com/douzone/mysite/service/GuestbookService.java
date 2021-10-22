@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.douzone.mysite.repository.GuestbookRepository;
 import com.douzone.mysite.vo.GuestbookVo;
-import com.douzone.mysite.vo.UserVo;
 
 @Service
 public class GuestbookService {

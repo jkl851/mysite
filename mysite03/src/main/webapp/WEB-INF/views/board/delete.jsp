@@ -14,12 +14,11 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form method="post" action="${pageContext.request.contextPath }/board">
-					<input type="hidden" name="a" value="delete">
-					<input type='hidden' name="no" value="${param.no }">
+				<form method="post" action="${pageContext.request.contextPath }/board/delete">
+					<input type='hidden' name="no" value="${no }">
 					<label>비밀번호</label>
 					<input type="password" name="password">
-					<c:if test="${result=='fail' }">
+					<c:if test="${result =='fail' }">
 						<p>비밀번호가 틀렸습니다</p>
 					</c:if>
 					<input type="submit" value="확인">
