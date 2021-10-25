@@ -18,7 +18,7 @@ import com.douzone.mysite.vo.GalleryVo;
 public class GalleryController {
 	
 	@Autowired
-	private GalleryService galleryService; 
+	private GalleryService galleryService;  
 	
 	@RequestMapping("")
 	public String index(Model model) {

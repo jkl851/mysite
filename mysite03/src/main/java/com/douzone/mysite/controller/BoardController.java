@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,8 +21,6 @@ import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.PageCalVo;
 import com.douzone.mysite.vo.UserVo;
-
-
 
 @Controller
 @RequestMapping("/board")
@@ -47,19 +44,18 @@ public class BoardController {
 			}                                                                    
 		                                                                               
 		if (visitedCheck) {                                                            
-			BoardVo vo = boardService.getTitleContent(contentNo);                      
-			                                                                           
+			BoardVo vo = boardService.getTitleContent(contentNo);                                                                                 
 			model.addAttribute("vo", vo);                                              
 			return "board/view";                                                       
 			                                                                           
 		} else {                                                                       
 			BoardVo vo = boardService.getTitleContent(contentNo);                      
-			boardService.hit(vo.getHit(), contentNo);                                  
+			boardService.hit(contentNo);                                  
 			                                                                           
 	                                                                                   
 			Cookie vCookie = new Cookie("visited" + contentNo, "1");                   
 			vCookie.setMaxAge(60); //60초                                              
-			response.addCookie(vCookie);                                               
+			response.addCookie(vCookie);
 			model.addAttribute("vo", vo);                                              
 			return "board/view";                                                       
 		}                                                                            
@@ -85,6 +81,8 @@ public class BoardController {
 		}
 		/////////////////////////////////////////////////////////
 		if (orderNo != null){
+			boardService.replyUpdate(orderNo+1L);
+			
 			BoardVo vo = new BoardVo();
 			vo.setUser_no(authUser.getNo());
 			vo.setTitle(title);

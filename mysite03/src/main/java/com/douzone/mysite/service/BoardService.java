@@ -29,8 +29,8 @@ public class BoardService {
 		return boardRepository.getTitleContent(contentNo);
 	} 
 	
-	public boolean hit(Long hit, Long contentNo) {
-		return boardRepository.hit(hit, contentNo);
+	public boolean hit(Long contentNo) {
+		return boardRepository.hit(contentNo);
 	} 
 	
 	public BoardVo getGroupOrderDepthNo(Long contentNo) {
@@ -42,10 +42,15 @@ public class BoardService {
 	} 
 	
 	public List<BoardVo> limitedFind(Long pageNum) {
+		pageNum = (pageNum-1)*10L;
 		return boardRepository.limitedFind(pageNum);
 	}
 	
 	public Long countContents() {
 		return boardRepository.countContents();
+	}
+	
+	public boolean replyUpdate(Long orderNo) {
+		return boardRepository.replyUpdate(orderNo);
 	}
 }

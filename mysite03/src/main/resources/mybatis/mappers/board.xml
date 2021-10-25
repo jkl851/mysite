@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="limitedFind" parameterType="long" resultType="boardvo">
+		<![CDATA[
+		select b.no as no, b.user_no as user_no, a.name as user_name, b.title as title, 
+		b.contents as contents, b.hit as hit, b.reg_date as reg_date, b.group_no as group_no, 
+		b.order_no as order_no, b.depth as depth	
+		 from board b, user a
+		    where b.user_no = a.no	order by group_no desc, order_no asc	
+		    limit #{pageNum }, 10
+		]]>
+	</select>
+	
+	<select id="maxGroupNoFind" resultType="long">
+		<![CDATA[
+		 select max(group_no)	from board
+		]]>
+	</select>
+	
+	<select id="countContents" resultType="long">
+		<![CDATA[
+		 select count(no)	from board
+		]]>
+	</select>
+	
+	<select id="getTitleContent" parameterType="long" resultType="boardvo">
+		<![CDATA[
+		 select no, user_no, title, contents, group_no, order_no, depth, hit	
+		 from board	where no=#{contentNo}
+		]]>
+	</select>
+	
+	<update id="hit" parameterType="long">
+		<![CDATA[
+		update board set hit= hit+1 where no=#{contentNo}
+		]]>	
+	</update>
+	
+	<select id="getGroupOrderDepthNo" parameterType="long" resultType="boardvo">
+		<![CDATA[
+		 select group_no, order_no, depth	from board	where no=#{contentNo}
+		]]>
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete b from board b join user a on b.user_no=a.no where b.no=#{contentNo} and a.password=#{password}
+		]]>
+	</delete>
+	
+	<insert id="insert" parameterType="boardvo">
+		<![CDATA[
+		insert into board values (null, #{user_no}, #{title}, #{contents}, #{hit},
+		 now(), #{group_no}, #{order_no}, #{depth})
+		]]>
+	</insert>
+	
+	<update id="modify" parameterType="boardvo">
+		<![CDATA[
+		update board set title=#{title}, contents=#{contents}, reg_date=now() where no=#{no}
+		]]>	
+	</update>
+	
+	<update id="replyUpdate" parameterType="long">
+		<![CDATA[
+		update board set order_no=order_no+1 where order_no >= #{orderNo}
+		]]>	
+	</update>
+</mapper>
