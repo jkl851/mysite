@@ -35,13 +35,24 @@
 								<c:if test="${vo.depth ne 0}">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png" width="10" height="10">
 								</c:if>
-							<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a></td>
-							<td>${vo.user_name }</td>
-							<td>${vo.hit }</td> 
-							<td>${vo.reg_date }</td>
+							<c:choose>
+								<c:when test='${vo.status == "1" }'>
+									<a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a>
+									<td>${vo.user_name }</td>
+									<td>${vo.hit }</td> 
+									<td>${vo.reg_date }</td>
+								</c:when>
+								<c:otherwise>
+									<td>${vo.no }</td>
+									<td><a href="">이미 삭제된 글입니다.</a></td>
+									<td></td>
+									<td></td> 
+									<td></td>
+								</c:otherwise>
+							</c:choose>
 							<c:choose>
 								<c:when test='${vo.user_no == authUser.no }'>
-									<td><a href="${pageContext.request.contextPath }/board/delete/${vo.no }">
+									<td><a href="${pageContext.request.contextPath }/board/delete/${vo.no }?gN=${vo.group_no}">
 									<img src="${pageContext.request.contextPath }/assets/images/recycle.png" width="20" height="20">
 									</a></td>
 								</c:when>

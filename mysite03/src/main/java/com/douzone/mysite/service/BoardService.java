@@ -53,4 +53,6 @@ public class BoardService {
 	public boolean replyUpdate(Long orderNo) {
 		return boardRepository.replyUpdate(orderNo);
 	}
+	
+	
 }

@@ -121,9 +121,13 @@ public class BoardController {
 		return "board/write";
 	}
 	@Auth
-	@RequestMapping(value = "/delete/{no}", method = RequestMethod.GET)
-	public String delete(@PathVariable("no") Long contentNo, Model model) {
+	@RequestMapping(value = "/delete/{no}?gN={group_no}", method = RequestMethod.GET)
+	public String delete(
+			@PathVariable("no") Long contentNo,
+			@PathVariable("group_no") Long gN, 
+			Model model) {
 		model.addAttribute("no", contentNo);
+		model.addAttribute("gN", gN);
 		return "board/delete";
 	}
 	
@@ -133,8 +137,14 @@ public class BoardController {
 			@RequestParam(value = "no", required = true, defaultValue = "") Long contentNo,
 			@RequestParam(value = "password", required = true, defaultValue = "") String password, 
 			Model model) {
+		
+//		if () {
+//			
+//		}
+//		boolean result =
+		
 		boolean result = boardService.delete(contentNo, password);
-
+		
 		if (result) {
 			return "redirect:/board";
 		} else {

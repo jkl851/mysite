@@ -11,6 +11,7 @@ public class BoardVo {
 	private Long group_no;
 	private Long order_no;
 	private Long depth;
+	private Long status;
 	
 	public Long getNo() {
 		return no;
@@ -73,11 +74,17 @@ public class BoardVo {
 		this.depth = depth;
 	}
 	
+	public Long getStatus() {
+		return status;
+	}
+	public void setStatus(Long status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", user_no=" + user_no + ", user_name=" + user_name + ", title=" + title
 				+ ", contents=" + contents + ", hit=" + hit + ", reg_date=" + reg_date + ", group_no=" + group_no
-				+ ", order_no=" + order_no + ", depth=" + depth + "]";
+				+ ", order_no=" + order_no + ", depth=" + depth + ", status=" + status + "]";
 	}
 
 }
