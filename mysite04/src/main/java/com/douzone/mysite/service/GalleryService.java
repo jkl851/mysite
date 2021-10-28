@@ -5,32 +5,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.mysite.exception.GalleryServiceException;
-import com.douzone.mysite.repository.AdminRepository;
-import com.douzone.mysite.vo.SiteVo;
+import com.douzone.mysite.repository.GalleryRepository;
+import com.douzone.mysite.vo.GalleryVo;
 
 @Service
-public class AdminService {
+public class GalleryService {
 	private static String SAVE_PATH = "/upload-mysite";
 	private static String URL_BASE = "/gallery/images";	
 	
 	@Autowired
-	private AdminRepository adminRepository;
+	private GalleryRepository galleryRepository;
 
-	public SiteVo getSite() {
-		return adminRepository.findAll();
+	public List<GalleryVo> getImages() {
+		return galleryRepository.findAll();
 	}
 	
-	public boolean UpdateSite(SiteVo vo) {
-		return adminRepository.update(vo);
+	public Boolean removeImage(Long no) {
+		return galleryRepository.delete(no);
 	}
 
-	public String saveImage(MultipartFile file) throws GalleryServiceException {
+	public void saveImage(MultipartFile file, String comments) throws GalleryServiceException {
 		try {
 			File uploadDirectory = new File(SAVE_PATH);
 			if(!uploadDirectory.exists()) {
@@ -50,10 +51,11 @@ public class AdminService {
 			os.write(data);
 			os.close();
 			
+			GalleryVo vo = new GalleryVo();
+			vo.setUrl(URL_BASE + "/" + saveFilename);
+			vo.setComments(comments);
 			
-			return URL_BASE + "/" + saveFilename;
-			
-			
+			galleryRepository.insert(vo);
 		} catch(IOException ex) {
 			throw new GalleryServiceException("file upload error:" + ex);
 		}
