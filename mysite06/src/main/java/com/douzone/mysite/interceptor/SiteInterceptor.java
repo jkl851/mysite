@@ -5,12 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.douzone.mysite.service.AdminService;
 import com.douzone.mysite.vo.SiteVo;
 
-public class SiteInterceptor extends HandlerInterceptorAdapter {
+public class SiteInterceptor implements HandlerInterceptor {
 	@Autowired
 	AdminService adminService;
 	
