@@ -1,2 +1,2 @@
-public class MySiteApplication(){
+public class MySiteApplication {
 }
