@@ -54,7 +54,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>com.douzone.mysite.config.WebConfig</param-value>
-		</init-param>m
+		</init-param>
 	</servlet>
 
 	<servlet-mapping>

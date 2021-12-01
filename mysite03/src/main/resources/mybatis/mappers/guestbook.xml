@@ -12,7 +12,7 @@
 		</selectKey>
 	</insert>
 
-	<insert id="insert02" parameterType="guestbookvo" useGeneratedKeys="true" keyProperty="no">
+	<insert id="insertSPA" parameterType="guestbookvo" useGeneratedKeys="true" keyProperty="no">
 		<![CDATA[
 		insert into guestbook values(null, #{name }, #{password }, #{message }, now())
 		]]>
@@ -31,5 +31,32 @@
 		order by reg_date desc
 		]]>
 	</select>
+	
+	<select id="findAllOfSPA" resultType="guestbookvo">
+		<![CDATA[
+		  select no, name, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate, message
+		    from guestbook
+			limit 5
+		]]>
+	</select>
+	
+	<select id="findAllByNo" parameterType="long" resultType="guestbookvo">
+		<![CDATA[
+		  select no,
+		         name,
+		         message,
+		         date_format(reg_date, '%Y-%m-%d') as regDate
+		    from guestbook
+		]]>
+		<if test="_parameter > 0">
+			<![CDATA[
+			  where no < #{_parameter }
+			]]>
+		</if>
+		<![CDATA[
+	  	  order by no desc
+	  	  limit 0, 3
+	  	]]>
+	</select>	
 
 </mapper>

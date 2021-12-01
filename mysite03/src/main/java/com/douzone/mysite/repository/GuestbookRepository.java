@@ -16,6 +16,14 @@ public class GuestbookRepository {
 		return sqlSession.selectList("guestbook.findAll");
 	}
 	
+	public List<GuestbookVo> defaultListOfSPA() throws GuestbookRepositoryException {
+		return sqlSession.selectList("guestbook.findAllOfSPA");
+	}
+	
+	public List<GuestbookVo> findAll(Long no) throws GuestbookRepositoryException {
+		return sqlSession.selectList("guestbook.findAllByNo", no);
+	}
+	
 	public boolean delete(GuestbookVo vo) {
 		int count = sqlSession.delete("guestbook.delete", vo);
 		return count == 1;		
@@ -24,7 +32,11 @@ public class GuestbookRepository {
 	
 	public boolean insert(GuestbookVo vo) {
 		int count = sqlSession.insert("guestbook.insert", vo);
-		System.out.println(vo);
+		return count == 1;
+	}
+	
+	public boolean insertSPA(GuestbookVo vo) {
+		int count = sqlSession.insert("guestbook.insertSPA", vo);
 		return count == 1;
 	}
 }
